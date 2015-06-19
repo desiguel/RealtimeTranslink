@@ -58,7 +58,9 @@ define(function (require) {
 		getRealTimeData: function(route_id, newPositionCallback) {
 			$.ajax({
 				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
-				success: newPositionCallback(data)
+				success: function(data) {
+					newPositionCallback(data)
+				}
     		});
 		}
     };

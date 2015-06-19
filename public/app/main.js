@@ -59,5 +59,5 @@ define(function (require) {
 	view.initialize();
 	renderAll();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
-	routes.initialize(kmlLoadedCallback);
+	routes.initialize(kmlLoadedCallback, stopsCallback);
 });

@@ -16,16 +16,19 @@ define(function (require) {
 	var kmlURL = 'http://realtime-transrt.rhcloud.com/SEQ.kml'
 
 	return {
-		initialize: function(completedCallback) {
+		initialize: function(completedCallback, stopsCallback) {
 			$.ajax(kmlURL).done(function(xml) {
 				var searchData = toGeoJSON.kml(xml).features;
-				console.log(searchData);
+
+				stopsCallback(_.filter(searchData, function(feature) {
+					return feature.properties.description.indexOf("Stop id: 311609") > 0;
+				}));
+
 				completedCallback();
 			});
 		},
 
 		getStops: function(route, stopsCallback) {
-			console.log(searchData);
 			if(!searchData) return;
 
 			stopsCallback(_.filter(searchData, function(feature) {

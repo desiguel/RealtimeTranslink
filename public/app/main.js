@@ -3,7 +3,7 @@ define(function (require) {
     var view = require("./view");
 
     var kmlLoadedCallback = function() {
-
+    	routes.getStops('209', stopsCallback);
     }
 
     var stopsCallback = function(stops) {

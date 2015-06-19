@@ -30,6 +30,7 @@ define(function (require) {
     	// Render the new route
 		routes.setActive(newRoute);
 		view.renderActiveRoute(routes.getActive());
+		view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 	}
 
 	// Remove a route from the list on the right

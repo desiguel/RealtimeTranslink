@@ -2,12 +2,9 @@ var express = require('express');
 var request = require('request');
 var async = require('async');
 var path = require('path');
+var gtfs = require('gtfs-realtime-bindings');
 
-var tj = require('togeojson');
-var fs = require('fs');
-var jsdom = require('jsdom').jsdom;
-
-var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
+var stops = require('./public/app/res/stoplookup.js');
 
 var requestSettings = {
   method: 'GET',
@@ -21,7 +18,7 @@ function serveRoute(req, res) {
 			var content = [];
 			request(requestSettings, function parseGtfs(error, response, body) {
 				if (!error && response.statusCode == 200) {
-					var feed = GtfsRealtimeBindings.FeedMessage.decode(body);
+					var feed = gtfs.FeedMessage.decode(body);
 
 					async.each(feed.entity, function(entity) {
 						if (entity.trip_update) {
@@ -41,11 +38,7 @@ function serveRoute(req, res) {
 }
 
 function serveStop(req, res) {
-	if (!json) {
-		res.send("[]");
-		return;
-	}
-	res.send(json.features.filter(function(feature) {
+	res.send(stops().filter(function(feature) {
 		if (feature.properties.hasOwnProperty("description")) {
 			return (feature.properties.description.indexOf("Stop id: " + req.params.name) >= 0);
 		} else {
@@ -53,8 +46,6 @@ function serveStop(req, res) {
 		}
 	}));
 }
-
-var json = null;
 
 // Minimal express app for serving HTML and providing REST API
 var app = express();
@@ -72,6 +63,3 @@ app.listen(server_port, server_ip_address, function(){
   console.log("Listening on " + server_ip_address + ", server_port " + server_port)
 });
 
-// Parse the KML file and save as a JSON object
-//var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
-//json = tj.kml(kml);

@@ -2,11 +2,10 @@ define(function (require) {
 
 	var map;
 	var activeLayer;
-	var inactiveLayer;
-	var stopLayer;
 
 	var currentStops = [];
 
+	// AJAX THESE
 	var tmplCurrentRoutes = _.template("<tbody>\
 	<% _.each(routes, function(route){ \
 		var cssClass = 'inactive-route-row';\
@@ -39,7 +38,7 @@ define(function (require) {
 			$('#route-table').html(tmplCurrentRoutes({routes:routes, activeRoute: activeRoute}));
 			
 			// This way of setting up callbacks isn't terribly efficient but will do for a 
-			// small number of entries in the table < 10 with no troubles
+			// small number of entries in the table < 20 with no troubles
 
 			// Setup callback for switching active route
 			$("#route-table tr").each(function() {
@@ -101,30 +100,10 @@ define(function (require) {
 			activeLayer.setMap(null);
 		},
 
-		// Unusable at the moment
-		renderInactiveRoutes: function(routes) {
-
-			// Seems like it might not be possible to do the right
-			// query here as Google Fusion tables don't allow 'OR'
-			// in their queries
-			var whereQuery = routes.reduce(function(string, route) {
-				return string.concat('(name LIKE \'' + route +'0%\') OR ');
-			}, '');
-			whereQuery = whereQuery.substring(0, whereQuery.length - 3);
-
-			inactiveLayer = new google.maps.FusionTablesLayer({
-				query: {
-					select: '\'name\'',
-					from: '15ZTaO3_Ue2jsKyqTlwQJ5eku7e3v_cZKxZwqbZMP',
-					where: whereQuery
-				},
-				clickable: false
-			});
-			
-			inactiveLayer.setMap(map);
-		},
-
 		renderStop: function(stop) {
+
+			// maybe color code inbound/outbound
+
 			var loc = stop.geometry.coordinates;
 			var marker = new google.maps.Marker({
 				map: map,

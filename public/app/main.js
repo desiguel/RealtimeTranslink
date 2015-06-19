@@ -20,7 +20,7 @@ define(function (require) {
 	}
 
     var activeRouteCallback = function(newRoute) {
-    	view.eraseStops();
+    	//view.eraseStops();
     	view.eraseActiveRoute();
 		routes.setActive(newRoute);
 		routes.getRealTimeData(newPositionCallback, newRoute);
@@ -35,9 +35,9 @@ define(function (require) {
 
 	var newPositionCallback = function(newPositions) {
 		_.each(newPositions, function(pos) {
-			view.eraseStops();
+			//view.eraseStops();
 			console.log(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""));
-			view.renderStop(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""));
+			//view.renderStop(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""));
 		})
 	}
 

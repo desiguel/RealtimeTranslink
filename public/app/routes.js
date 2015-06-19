@@ -19,6 +19,7 @@ define(function (require) {
 		initialize: function(completedCallback) {
 			$.ajax(kmlURL).done(function(xml) {
 				var searchData = toGeoJSON.kml(xml).features;
+				console.log(searchData);
 				completedCallback();
 			});
 		},

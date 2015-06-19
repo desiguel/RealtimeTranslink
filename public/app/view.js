@@ -125,7 +125,6 @@ define(function (require) {
 		},
 
 		renderStop: function(stop) {
-			console.log(stop)
 			var loc = stop.geometry.coordinates;
 			var marker = new google.maps.Marker({
 				map: map,
@@ -133,11 +132,13 @@ define(function (require) {
 			});
 
 			currentStops.push(marker);
-			console.log(marker);
 		},
 
 		eraseStops: function() {
-			stopLayer.setMap(null);
+			_.each(currentStops, function (stop) {
+				stop.setMap(null);
+			});
+			currentStops = [];
 		},
 
 		initialize: function () {

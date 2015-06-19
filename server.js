@@ -2,7 +2,16 @@ var express = require('express');
 var request = require('request');
 var async = require('async');
 var path = require('path');
+
+var tj = require('togeojson');
+var fs = require('fs');
+var jsdom = require('jsdom').jsdom;
+
 var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
+
+// Parse the KML file and save as a JSON object
+var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
+var json = tj.kml(kml);
 
 var requestSettings = {
   method: 'GET',
@@ -35,9 +44,20 @@ function serveRoute(req, res) {
     ]);
 }
 
+function serveStop(req, res) {
+	res.send(json.features.filter(function(feature) {
+		if (feature.properties.hasOwnProperty("description")) {
+			return (feature.properties.description.indexOf("Stop id: " + req.params.name) >= 0);
+		} else {
+			return false;
+		}
+	}));
+}
+
 // Minimal express app for serving HTML and providing REST API
 var app = express();
 app.get('/route/:name', serveRoute);
+app.get('/stop/:name', serveStop);
 app.get('/', function(req,res) {
 	res.sendFile(path.join(__dirname, '/public', 'index.html'));
 });

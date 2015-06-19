@@ -6,7 +6,10 @@
     "async": "1.2.1",
     "express": "4.12.4",
     "request": "2.57.0",
-    "gtfs-realtime-bindings": "0.0.4"
+    "gtfs-realtime-bindings": "0.0.4",
+    "fs": "0.0.2",
+    "togeojson": "0.11.1",
+    "jsdom": "3.X.X"
   },
   "engine": "node >= 0.6.0",
   "main": "server.js"

@@ -11,37 +11,20 @@ define(function (require) {
 
 	var stopData = "";
 
-	var searchData = null;
-
 	var kmlURL = 'http://realtime-transrt.rhcloud.com/SEQ.kml'
 
 	return {
-		initialize: function(completedCallback, stopsCallback) {
-			$.ajax(kmlURL).done(function(xml) {
-				var searchData = toGeoJSON.kml(xml).features;
-
-				console.log(searchData);
-
-
-				stopsCallback(_.filter(searchData, function(feature) {
-					console.log(feature);
-					if (feature.hasOwnProperty("properties")) {
-						return feature.properties.description.indexOf("Stop id: 311609") > 0;
-					} else {
-						return false;
-					}
-				}));
-
-				completedCallback();
-			});
+		initialize: function(completedCallback) {
+			completedCallback();
 		},
 
-		getStops: function(route, stopsCallback) {
-			if(!searchData) return;
-
-			stopsCallback(_.filter(searchData, function(feature) {
-				return feature.properties.description.indexOf("Stop id: " + req) > 0;
-			}));
+		getStop: function(stop_id, stopCallback) {
+			$.ajax({
+				url: 'http://realtime-transrt.rhcloud.com/stop/' + stop_id,
+				success: function(data) {
+					stopCallback(data);
+      			}
+    		});
 		},
 
 		add: function(route) {
@@ -78,9 +61,8 @@ define(function (require) {
 
 		getRealTimeData: function(newPositionCallback, route_id) {
 			$.ajax({
-				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
+				url: 'http://realtime-transrt.rhcloud.com/' + route_id,
 				success: function(data) {
-					console.log("get rtd")
 					newPositionCallback(data);
       			}
     		});

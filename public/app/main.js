@@ -2,11 +2,7 @@ define(function (require) {
     var routes = require("./routes");
     var view = require("./view");
 
-    var kmlLoadedCallback = function() {
-    	routes.getStops('209', stopsCallback);
-    }
-
-    var stopsCallback = function(stops) {
+    var stopCallback = function(stops) {
     	console.log(stops);
 	    _.each(stops, function(stop) {
 			view.renderStop(stop);
@@ -20,7 +16,7 @@ define(function (require) {
 	}
 
     var activeRouteCallback = function(newRoute) {
-    	//view.eraseStops();
+    	view.eraseStops();
     	view.eraseActiveRoute();
 		routes.setActive(newRoute);
 		routes.getRealTimeData(newPositionCallback, newRoute);
@@ -35,9 +31,8 @@ define(function (require) {
 
 	var newPositionCallback = function(newPositions) {
 		_.each(newPositions, function(pos) {
-			//view.eraseStops();
 			console.log(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""));
-			//view.renderStop(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""));
+			routes.getStop(pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,""), stopCallback);
 		})
 	}
 
@@ -52,12 +47,10 @@ define(function (require) {
 	routes.add('120');
 	routes.add('302');
 	routes.add('222');
-	//view.renderStop('6291');
 
 	// Need to init the map better
 	//google.maps.event.addDomListener(window, 'load', initialize);
 	view.initialize();
 	renderAll();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
-	routes.initialize(kmlLoadedCallback, stopsCallback);
 });

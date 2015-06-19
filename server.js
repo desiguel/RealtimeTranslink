@@ -9,10 +9,6 @@ var jsdom = require('jsdom').jsdom;
 
 var GtfsRealtimeBindings = require('gtfs-realtime-bindings');
 
-// Parse the KML file and save as a JSON object
-var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
-var json = tj.kml(kml);
-
 var requestSettings = {
   method: 'GET',
   url: 'https://gtfsrt.api.translink.com.au/Feed/SEQ',
@@ -45,6 +41,10 @@ function serveRoute(req, res) {
 }
 
 function serveStop(req, res) {
+	if (!json) {
+		res.send("[]");
+		return;
+	}
 	res.send(json.features.filter(function(feature) {
 		if (feature.properties.hasOwnProperty("description")) {
 			return (feature.properties.description.indexOf("Stop id: " + req.params.name) >= 0);
@@ -53,6 +53,8 @@ function serveStop(req, res) {
 		}
 	}));
 }
+
+var json = null;
 
 // Minimal express app for serving HTML and providing REST API
 var app = express();
@@ -69,3 +71,7 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 app.listen(server_port, server_ip_address, function(){
   console.log("Listening on " + server_ip_address + ", server_port " + server_port)
 });
+
+// Parse the KML file and save as a JSON object
+var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
+json = tj.kml(kml);

@@ -7,9 +7,14 @@ define(function (require) {
 		view.hideLoadingDialog();
 		view.eraseStops();
 
+		var activeStops = [];
 		_.each(newPositions, function(pos) {
 			var stopId = pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,"");
-			routes.getStop(stopId, view.renderStop);
+
+			if (!!!(_.contains(activeStops, stopId))) {
+				routes.getStop(stopId, view.renderStop);
+				activeStops.push(stopId);
+			}
 		})
 	}
 
@@ -19,6 +24,7 @@ define(function (require) {
 
     	// Remove the current route
     	view.eraseActiveRoute();
+    	view.eraseStops();
     	view.showLoadingDialog();
 
     	// Render the new route

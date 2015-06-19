@@ -1,35 +1,17 @@
 define(function (require) {
 
-	var map;
+	var map = null;
 	var activeLayer = null;
-
 	var currentStops = [];
+	
+	var tmplCurrentRoutes = null;
+	var tmplAllRoutes = null;
 
-	// AJAX THESE
-	var tmplCurrentRoutes = _.template("<tbody>\
-	<% _.each(routes, function(route){ \
-		var cssClass = 'inactive-route-row';\
-		if (route === activeRoute) {\
-			cssClass = 'active-route-row';\
-		}\
-		 %>\
-		<tr class='<%= cssClass %>'>\
-		<td><%= route %></td><td> <button>&times</button> </td>\
-		</tr>\
-	<% }); %>\
-</tbody>");
-
-	var tmplAllRoutes = _.template("<tbody>\
-	<% _.each(_.keys(routes), function(route){ %>\
-	<tr><td><%= route %></td><td><%= routes[route] %></td></tr>\
-	<% }); %>\
-	</tbody>");
-
-	var showDialog = function() {
+	var showAddRouteDialog = function() {
 		$('#dialog-box').css("visibility", "visible");
 	}
 
-	var hideDialog = function() {
+	var hideAddRouteDialog = function() {
 		$('#dialog-box').css("visibility", "hidden");
 	}
 
@@ -64,7 +46,7 @@ define(function (require) {
 			});
 
 			$('#new-route-button').click(function() {
-				showDialog();
+				showAddRouteDialog();
 			});
 		},
 
@@ -72,7 +54,7 @@ define(function (require) {
 			$('#dialog-box-table').html(tmplAllRoutes({routes:routes}));
 
 			$('#dialog-box-escape-button').click(function() {
-				hideDialog();
+				hideAddRouteDialog();
 			});
 			
 			// Setup callback for adding a route
@@ -139,6 +121,21 @@ define(function (require) {
 			}
 
 			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+			// Download the templates for dynamic table generation
+			$.ajax({
+				url: 'http://realtime-transrt.rhcloud.com/all-routes.html',
+				success: function(data) {
+					tmplAllRoutes = _.template(data);
+				}
+    		});
+    		$.ajax({
+				url: 'http://realtime-transrt.rhcloud.com/current-routes.html',
+				success: function(data) {
+					tmplCurrentRoutes = _.template(data);
+				}
+    		});
+			
 		}
     };
 });

@@ -26,6 +26,9 @@ define(function (require) {
 		getStops: function(route, stopsCallback) {
 			if(!searchData) return;
 
+
+			
+
 			stopsCallback(_.filter(searchData, function(feature) {
 				return feature.properties.description.indexOf("Stop id: " + req) > 0;
 			}));

@@ -7,6 +7,7 @@ define(function (require) {
     }
 
     var stopsCallback = function(stops) {
+    	console.log(stops);
 	    _.each(stops, function(stop) {
 			view.renderStop(stop);
 		})

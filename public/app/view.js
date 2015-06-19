@@ -125,6 +125,7 @@ define(function (require) {
 		},
 
 		renderStop: function(stop) {
+			console.log(stop)
 			var loc = stop.geometry.coordinates;
 			var marker = new google.maps.Marker({
 				map: map,

@@ -24,10 +24,8 @@ define(function (require) {
 		},
 
 		getStops: function(route, stopsCallback) {
+			console.log(searchData);
 			if(!searchData) return;
-
-
-			
 
 			stopsCallback(_.filter(searchData, function(feature) {
 				return feature.properties.description.indexOf("Stop id: " + req) > 0;
@@ -70,6 +68,7 @@ define(function (require) {
 			$.ajax({
 				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
 				success: function(data) {
+					console.log("get rtd")
 					newPositionCallback(data);
       			}
     		});

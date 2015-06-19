@@ -20,12 +20,9 @@ define(function (require) {
 			$.ajax(kmlURL).done(function(xml) {
 				var searchData = toGeoJSON.kml(xml).features;
 
-				console.log(searchData);
-
-
 				stopsCallback(_.filter(searchData, function(feature) {
 					console.log(feature);
-					return feature.properties.description.indexOf("Stop id: 311609") > 0;
+					return feature.description.indexOf("Stop id: 311609") > 0;
 				}));
 
 				completedCallback();

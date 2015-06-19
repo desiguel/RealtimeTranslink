@@ -40,11 +40,11 @@ define(function (require) {
 	    callback(ret)
 	};
 
-
 	return {
 		initialize: function() {
 			$.ajax(kmlURL).done(function(xml) {
-				console.log(toGeoJSON.kml(xml));
+				var searchData = toGeoJSON.kml(xml);
+				console.log(searchData.features[0])
 			});
 		},
 

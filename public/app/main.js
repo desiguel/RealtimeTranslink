@@ -4,6 +4,10 @@ define(function (require) {
     
     // Plot the new positions of the vehicles on the active route
     var newPositionCallback = function(newPositions) {
+
+    	// Hide "finding busses."
+		view.hideLoadingDialog();
+
 		_.each(newPositions, function(pos) {
 			var stopId = pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,"");
 			routes.getStop(stopId, view.renderStop);
@@ -18,6 +22,9 @@ define(function (require) {
     	// Remove the current route
     	view.eraseStops();
     	view.eraseActiveRoute();
+
+    	// Display "finding busses."
+    	view.showLoadingDialog();
 
     	// Render the new route
 		routes.setActive(newRoute);

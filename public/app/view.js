@@ -34,6 +34,15 @@ define(function (require) {
 	}
 
     return {
+
+    	showLoadingDialog: function() {
+    		$('#dialog-box2').css("visibility", "visible");
+    	},
+
+    	hideLoadingDialog: function() {
+    		$('#dialog-box2').css("visibility", "hidden");
+    	},
+
     	renderTable: function(routes, activeRoute, activeRouteCallback, removeRouteCallback) {
 			$('#route-table').html(tmplCurrentRoutes({routes:routes, activeRoute: activeRoute}));
 			

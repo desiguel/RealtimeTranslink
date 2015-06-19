@@ -55,6 +55,21 @@ html, body, #map-canvas {
     visibility: hidden;
 }
 
+#dialog-box2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    margin-left: -125px;
+    height: 100px;
+    margin-top: -50px;
+    background: #2C64DE;
+    text-align: center;
+    vertical-align: center;
+    color: white;
+    visibility: visible;
+}
+
 .dialog-box-table {
 	background-color: white;
 	display: inline-block;

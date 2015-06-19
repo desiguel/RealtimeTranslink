@@ -1,7 +1,7 @@
 define(function (require) {
 
 	var map;
-	var activeLayer;
+	var activeLayer = null;
 
 	var currentStops = [];
 
@@ -97,7 +97,9 @@ define(function (require) {
 		},
 
 		eraseActiveRoute: function() {
-			activeLayer.setMap(null);
+			if (activeLayer) {
+				activeLayer.setMap(null);
+			}
 		},
 
 		renderStop: function(stop) {

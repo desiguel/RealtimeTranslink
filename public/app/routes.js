@@ -2,8 +2,6 @@ define(function (require) {
 
 	// JSON object with route_id : route_description
 	var routeLookup = require("./res/routelookup");
-	// For Parsing KML file
-	var tj = require('./libs/togeojson');
 
 	// Currently saved routes
 	var currentRoutes = [];
@@ -46,7 +44,7 @@ define(function (require) {
 	return {
 		initialize: function() {
 			$.ajax(kmlURL).done(function(xml) {
-				console.log(tj.kml(xml));
+				console.log(toGeoJSON.kml(xml));
 			});
 		},
 

@@ -73,5 +73,5 @@ app.listen(server_port, server_ip_address, function(){
 });
 
 // Parse the KML file and save as a JSON object
-var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
-json = tj.kml(kml);
+//var kml = jsdom(fs.readFileSync('public/SEQ.kml', 'utf8'));
+//json = tj.kml(kml);

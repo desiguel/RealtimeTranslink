@@ -5,6 +5,7 @@ define(function (require) {
     // Plot the new positions of the vehicles on the active route
     var newPositionCallback = function(newPositions) {
 		view.hideLoadingDialog();
+		view.eraseStops();
 
 		_.each(newPositions, function(pos) {
 			var stopId = pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,"");
@@ -14,11 +15,9 @@ define(function (require) {
 
 	// Change the route being shown on the map
     var activeRouteCallback = function(newRoute) {
-    	// Do this before erase as it takes a while
     	routes.getRealTimeData(newRoute, newPositionCallback);
 
     	// Remove the current route
-    	view.eraseStops();
     	view.eraseActiveRoute();
     	view.showLoadingDialog();
 
@@ -55,9 +54,9 @@ define(function (require) {
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
 	view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 
-	// Update bus positions every 5s
+	// Update bus positions every 10s
 	var updatePositions = function() {
     	routes.getRealTimeData(routes.getActive(), newPositionCallback);
     }
-	window.setInterval(updatePositions, 5000);
+	window.setInterval(updatePositions, 10000);
 });

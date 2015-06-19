@@ -7,6 +7,20 @@ define(function (require) {
 	var tmplCurrentRoutes = null;
 	var tmplAllRoutes = null;
 
+	// Download the templates for dynamic table generation
+	$.ajax({
+		url: 'http://realtime-transrt.rhcloud.com/app/res/all-routes.html',
+		success: function(data) {
+			tmplAllRoutes = _.template(data);
+		}
+	});
+	$.ajax({
+		url: 'http://realtime-transrt.rhcloud.com/app/res/current-routes.html',
+		success: function(data) {
+			tmplCurrentRoutes = _.template(data);
+		}
+	});
+
 	var showAddRouteDialog = function() {
 		$('#dialog-box').css("visibility", "visible");
 	}
@@ -122,19 +136,7 @@ define(function (require) {
 
 			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-			// Download the templates for dynamic table generation
-			$.ajax({
-				url: 'http://realtime-transrt.rhcloud.com/app/res/all-routes.html',
-				success: function(data) {
-					tmplAllRoutes = _.template(data);
-				}
-    		});
-    		$.ajax({
-				url: 'http://realtime-transrt.rhcloud.com/app/res/current-routes.html',
-				success: function(data) {
-					tmplCurrentRoutes = _.template(data);
-				}
-    		});
+			
 			
 		}
     };

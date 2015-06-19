@@ -9,10 +9,6 @@ define(function (require) {
 	// The route being viewed currently
 	var activeRoute = "";
 
-	var stopData = "";
-
-	var kmlURL = 'http://realtime-transrt.rhcloud.com/SEQ.kml'
-
 	return {
 		initialize: function(completedCallback) {
 			completedCallback();
@@ -22,7 +18,7 @@ define(function (require) {
 			$.ajax({
 				url: 'http://realtime-transrt.rhcloud.com/stop/' + stop_id,
 				success: function(data) {
-					stopCallback(data);
+					stopCallback(data[0]);
       			}
     		});
 		},
@@ -59,12 +55,10 @@ define(function (require) {
 			return routeLookup;
 		},
 
-		getRealTimeData: function(newPositionCallback, route_id) {
+		getRealTimeData: function(route_id, newPositionCallback) {
 			$.ajax({
 				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
-				success: function(data) {
-					newPositionCallback(data);
-      			}
+				success: newPositionCallback(data)
     		});
 		}
     };

@@ -4,22 +4,21 @@ html, body, #map-canvas {
 	padding: 0px;
 }
 
+#map-canvas {
+    width:79%; 
+    float:left
+}
+
 #content-window {
 	height: 100%;
 	padding: 10px;
 	text-align: center;
+    width:19%; 
+    float:left
 }
 
 #button-div {
 	vertical-align: bottom;
-}
-
-#map-canvas {
-    width: 75%;
-}
-
-#content-window {
-    width: 18%;
 }
 
 .active-route-row {

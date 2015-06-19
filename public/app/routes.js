@@ -28,7 +28,7 @@ define(function (require) {
 
 			stopsCallback(_.filter(searchData, function(feature) {
 				return feature.properties.description.indexOf("Stop id: " + req) > 0;
-			});
+			}));
 		},
 
 		add: function(route) {

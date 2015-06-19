@@ -52,6 +52,5 @@ define(function (require) {
 	//google.maps.event.addDomListener(window, 'load', initialize);
 	view.initialize();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
-
-	renderAll();
+	view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 });

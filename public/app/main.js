@@ -52,7 +52,7 @@ define(function (require) {
 	routes.add('120');
 	routes.add('302');
 	routes.add('222');
-	view.renderStop('6291');
+	//view.renderStop('6291');
 
 	// Need to init the map better
 	//google.maps.event.addDomListener(window, 'load', initialize);

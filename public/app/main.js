@@ -49,6 +49,6 @@ define(function (require) {
 	renderAll();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
 	//view.renderStop('10796');
-
+	routes.initialize();
 	
 });

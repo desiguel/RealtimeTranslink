@@ -2,6 +2,8 @@ define(function (require) {
 
 	// JSON object with route_id : route_description
 	var routeLookup = require("./res/routelookup");
+	// For Parsing KML file
+	var tj = require('./libs/togeojson');
 
 	// Currently saved routes
 	var currentRoutes = [];
@@ -13,8 +15,7 @@ define(function (require) {
 
 	var searchData = null;
 
-	var kmlURL = 'http://http://realtime-transrt.rhcloud.com/SEQ.kml'
-
+	var kmlURL = 'http://realtime-transrt.rhcloud.com/SEQ.kml'
 
 	function createMarkerKML(place) {
 	    var loc=place.Point.coordinates.split(",")
@@ -44,11 +45,10 @@ define(function (require) {
 
 	return {
 		initialize: function() {
-			$.ajax("http://pipes.yahoo.com/pipes/pipe.run?_id=10a81555228e77349570df1cc6823ed2&_render=json&urlinput1=" + kmlURL).done(function (data) {
-				console.log('here')
-				searchData=data.value.items[0].Document.Placemark
-			})
-		}
+			$.ajax(kmlURL).done(function(xml) {
+				console.log(tj.kml(xml));
+			});
+		},
 
 		add: function(route) {
 			if (!!!(_.contains(currentRoutes, route))) {

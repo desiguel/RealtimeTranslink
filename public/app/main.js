@@ -1,11 +1,9 @@
 define(function (require) {
     var routes = require("./routes");
     var view = require("./view");
-    
+
     // Plot the new positions of the vehicles on the active route
     var newPositionCallback = function(newPositions) {
-
-    	// Hide "finding busses."
 		view.hideLoadingDialog();
 
 		_.each(newPositions, function(pos) {
@@ -22,8 +20,6 @@ define(function (require) {
     	// Remove the current route
     	view.eraseStops();
     	view.eraseActiveRoute();
-
-    	// Display "finding busses."
     	view.showLoadingDialog();
 
     	// Render the new route
@@ -46,8 +42,6 @@ define(function (require) {
     	view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 	}
 
-	
-
 	// Example routes for testing
 	routes.add('209');
 	routes.add('210');
@@ -60,4 +54,10 @@ define(function (require) {
 	view.initialize();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
 	view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
+
+	// Update bus positions every 5s
+	var updatePositions = function() {
+    	routes.getRealTimeData(routes.getActive(), newPositionCallback);
+    }
+	window.setInterval(updatePositions, 5000);
 });

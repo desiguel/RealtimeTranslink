@@ -67,7 +67,7 @@ html, body, #map-canvas {
     text-align: center;
     vertical-align: center;
     color: white;
-    visibility: visible;
+    visibility: hidden;
 }
 
 .dialog-box-table {

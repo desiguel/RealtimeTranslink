@@ -15,36 +15,19 @@ define(function (require) {
 
 	var kmlURL = 'http://realtime-transrt.rhcloud.com/SEQ.kml'
 
-	function createMarkerKML(place) {
-	    var loc=place.Point.coordinates.split(",")
-	    var marker = new google.maps.Marker({
-	        map: map,
-	        position: new google.maps.LatLng(loc[1],loc[0])
-	    });
-	    google.maps.event.addListener(marker, 'click', function () {
-	        infowindow.setContent(place.name);
-	        infowindow.open(map, marker);
-	    })
-	};
-
-	function searchKML(request,callback) {
-	    var ret=[]
-	    if(!searchData) return
-	    for(var i=0;i<searchData.length;i++){
-	        //insert distance search
-	        if( searchData[i].description.indexOf(request.keyword)!=-1 ||   //currently case sensitive
-	            searchData[i].name.indexOf(request.keyword)!=-1 ){
-	            ret.push(searchData[i]);
-	        }
-	    }
-	    callback(ret)
-	};
-
 	return {
-		initialize: function() {
+		initialize: function(completedCallback) {
 			$.ajax(kmlURL).done(function(xml) {
-				var searchData = toGeoJSON.kml(xml);
-				console.log(searchData.features[0])
+				var searchData = toGeoJSON.kml(xml).features;
+				completedCallback();
+			});
+		},
+
+		getStops: function(route, stopsCallback) {
+			if(!searchData) return;
+
+			stopsCallback(_.filter(searchData, function(feature) {
+				return feature.properties.description.indexOf("Stop id: " + req) > 0;
 			});
 		},
 
@@ -82,10 +65,10 @@ define(function (require) {
 
 		getRealTimeData: function(newPositionCallback, route_id) {
 			$.ajax({
-				url: 'http://localhost:8080/route/' + route_id,
+				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
 				success: function(data) {
 					newPositionCallback(data);
-      			} 
+      			}
     		});
 		}
     };

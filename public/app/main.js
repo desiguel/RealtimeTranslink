@@ -1,6 +1,16 @@
 define(function (require) {
     var routes = require("./routes");
     var view = require("./view");
+
+    var kmlLoadedCallback = function() {
+
+    }
+
+    var stopsCallback = function(stops) {
+	    _.each(stops, function(stop) {
+			view.renderStop(stop);
+		})
+	}
     
     var addRouteCallback = function(route) {
     	view.eraseActiveRoute();
@@ -48,7 +58,5 @@ define(function (require) {
 	view.initialize();
 	renderAll();
 	view.renderDialogTable(routes.getAllRoutes(), addRouteCallback);
-	//view.renderStop('10796');
-	routes.initialize();
-	
+	routes.initialize(kmlLoadedCallback);
 });

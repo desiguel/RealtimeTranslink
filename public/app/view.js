@@ -5,6 +5,8 @@ define(function (require) {
 	var inactiveLayer;
 	var stopLayer;
 
+	var currentStops = [];
+
 	var tmplCurrentRoutes = _.template("<tbody>\
 	<% _.each(routes, function(route){ \
 		var cssClass = 'inactive-route-row';\
@@ -122,17 +124,15 @@ define(function (require) {
 			inactiveLayer.setMap(map);
 		},
 
-		renderStop: function(stop_id) {
-			stopLayer = new google.maps.FusionTablesLayer({
-				query: {
-					select: '\'name\'',
-					from: '15ZTaO3_Ue2jsKyqTlwQJ5eku7e3v_cZKxZwqbZMP',
-					where: 'description LIKE \'Stop id: ' + stop_id + '<br/>%\''
-				},
-				clickable: false
+		renderStop: function(stop) {
+			var loc = stop.geometry.coordinates;
+			var marker = new google.maps.Marker({
+				map: map,
+				position: new google.maps.LatLng(loc[1],loc[0])
 			});
-			
-			stopLayer.setMap(map);
+
+			currentStops.push(marker);
+			console.log(marker);
 		},
 
 		eraseStops: function() {

@@ -3,7 +3,7 @@ define(function (require) {
 	var map = null;
 	var activeLayer = null;
 	var currentStops = [];
-	
+
 	var tmplCurrentRoutes = null;
 	var tmplAllRoutes = null;
 
@@ -124,13 +124,13 @@ define(function (require) {
 
 			// Download the templates for dynamic table generation
 			$.ajax({
-				url: 'http://realtime-transrt.rhcloud.com/all-routes.html',
+				url: 'http://realtime-transrt.rhcloud.com/app/res/all-routes.html',
 				success: function(data) {
 					tmplAllRoutes = _.template(data);
 				}
     		});
     		$.ajax({
-				url: 'http://realtime-transrt.rhcloud.com/current-routes.html',
+				url: 'http://realtime-transrt.rhcloud.com/app/res/current-routes.html',
 				success: function(data) {
 					tmplCurrentRoutes = _.template(data);
 				}

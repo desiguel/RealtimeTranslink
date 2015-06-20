@@ -42,7 +42,7 @@ define(function (require) {
 		view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 
 		// Continuously update bus positions
-		timer = window.setInterval(updatePositions, 10000, newroute);
+		timer = window.setInterval(updatePositions, 10000, newRoute);
 	}
 
 	// Remove a route from the list on the right

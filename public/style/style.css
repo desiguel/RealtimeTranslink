@@ -17,7 +17,11 @@ html, body, #map-canvas {
     padding: 5px;
     text-align: center;
     right: 0;
+    width: 35%;
+    max-width: 320px;
 }
+
+
 
 #container { 
     width: 100%; 

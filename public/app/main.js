@@ -2,6 +2,8 @@ define(function (require) {
 	var routes = require("./routes");
 	var view = require("./view");
 
+	var timer = null;
+
 	// Plot the new positions of the vehicles on the active route
 	var newPositionCallback = function(newPositions) {
 		view.hideLoadingDialog();
@@ -9,6 +11,8 @@ define(function (require) {
 
 		var activeStops = [];
 		_.each(newPositions, function(pos) {
+
+			// Ugly regex to strip stop number out of string. Needs to be replaced
 			var stopId = pos.replace(/(^\d+)(.+$)/i,'$1').replace(/^[0]+/g,"");
 
 			if (!!!(_.contains(activeStops, stopId))) {
@@ -20,20 +24,22 @@ define(function (require) {
 
 	// Change the route being shown on the map
 	var activeRouteCallback = function(newRoute) {
-		window.clearInterval(timer);
+		view.eraseActiveRoute();
+		routes.setActive(newRoute);
+		if (timer) {
+			window.clearInterval(timer);
+		}
 
 		routes.getRealTimeData(newRoute, newPositionCallback);
 
 		// Remove the current route
-		view.eraseActiveRoute();
 		view.eraseStops();
 		view.showLoadingDialog();
 
 		// Render the new route
-		routes.setActive(newRoute);
 		view.renderActiveRoute(routes.getActive());
 		view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
-		
+
 		timer = window.setInterval(updatePositions, 10000);
 	}
 
@@ -64,7 +70,6 @@ define(function (require) {
 	routes.add('302');
 	routes.add('222');
 
-	
 	view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
 
 	// Update bus positions every 10s
@@ -72,5 +77,4 @@ define(function (require) {
 		console.log(routes.getActive());
 		routes.getRealTimeData(routes.getActive(), newPositionCallback);
 	}
-	var timer = window.setInterval(updatePositions, 10000);
 });

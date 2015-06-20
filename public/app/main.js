@@ -20,6 +20,8 @@ define(function (require) {
 
 	// Change the route being shown on the map
 	var activeRouteCallback = function(newRoute) {
+		window.clearInterval(timer);
+
 		routes.getRealTimeData(newRoute, newPositionCallback);
 
 		// Remove the current route
@@ -31,6 +33,8 @@ define(function (require) {
 		routes.setActive(newRoute);
 		view.renderActiveRoute(routes.getActive());
 		view.renderTable(routes.get(), routes.getActive(), activeRouteCallback, removeRouteCallback);
+		
+		timer = window.setInterval(updatePositions, 10000);
 	}
 
 	// Remove a route from the list on the right
@@ -65,7 +69,8 @@ define(function (require) {
 
 	// Update bus positions every 10s
 	var updatePositions = function() {
+		console.log(routes.getActive());
 		routes.getRealTimeData(routes.getActive(), newPositionCallback);
 	}
-	window.setInterval(updatePositions, 10000);
+	var timer = window.setInterval(updatePositions, 10000);
 });

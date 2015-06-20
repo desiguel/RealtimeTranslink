@@ -4,22 +4,9 @@ define(function (require) {
 	var activeLayer = null;
 	var currentStops = [];
 
-	var tmplCurrentRoutes = null;
-	var tmplAllRoutes = null;
-
-	// Download the templates for dynamic table generation
-	$.ajax({
-		url: 'http://realtime-transrt.rhcloud.com/app/res/all-routes.html',
-		success: function(data) {
-			tmplAllRoutes = _.template(data);
-		}
-	});
-	$.ajax({
-		url: 'http://realtime-transrt.rhcloud.com/app/res/current-routes.html',
-		success: function(data) {
-			tmplCurrentRoutes = _.template(data);
-		}
-	});
+	// Get templates with require.js
+	var tmplCurrentRoutes = _.template(require("./res/current-routes"));
+	var tmplAllRoutes = _.template(require("./res/all-routes"));
 
 	var showAddRouteDialog = function() {
 		$('#dialog-box').css("visibility", "visible");
@@ -40,8 +27,6 @@ define(function (require) {
     	},
 
     	renderTable: function(routes, activeRoute, activeRouteCallback, removeRouteCallback) {
-    		if (!tmplCurrentRoutes) return;
-
 			$('#route-table').html(tmplCurrentRoutes({routes:routes, activeRoute: activeRoute}));
 			
 			// This way of setting up callbacks isn't terribly efficient but will do for a 
@@ -67,8 +52,6 @@ define(function (require) {
 		},
 
 		renderDialogTable: function(routes, addRouteCallback) {
-			if (!tmplAllRoutes) return;
-			
 			$('#dialog-box-table').html(tmplAllRoutes({routes:routes}));
 
 			$('#dialog-box-escape-button').click(function() {
@@ -81,8 +64,6 @@ define(function (require) {
 					addRouteCallback($(event.target).parent().find(">:first-child").html());
 				});
 			});
-
-			
 		},
 
 		renderActiveRoute: function(route) {
@@ -112,9 +93,6 @@ define(function (require) {
 		},
 
 		renderStop: function(stop) {
-
-			// maybe color code inbound/outbound
-
 			var loc = stop.geometry.coordinates;
 			var marker = new google.maps.Marker({
 				map: map,
@@ -139,9 +117,6 @@ define(function (require) {
 			}
 
 			map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-			
-			
 		}
     };
 });

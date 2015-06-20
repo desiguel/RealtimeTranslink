@@ -40,6 +40,8 @@ define(function (require) {
     	},
 
     	renderTable: function(routes, activeRoute, activeRouteCallback, removeRouteCallback) {
+    		if (!tmplCurrentRoutes) return;
+
 			$('#route-table').html(tmplCurrentRoutes({routes:routes, activeRoute: activeRoute}));
 			
 			// This way of setting up callbacks isn't terribly efficient but will do for a 
@@ -65,6 +67,8 @@ define(function (require) {
 		},
 
 		renderDialogTable: function(routes, addRouteCallback) {
+			if (!tmplAllRoutes) return;
+			
 			$('#dialog-box-table').html(tmplAllRoutes({routes:routes}));
 
 			$('#dialog-box-escape-button').click(function() {

@@ -5,10 +5,13 @@ define(function (require) {
 	var timer = null;
 
 	// Plot the new positions of the vehicles on the active route
-	var newPositionCallback = function(newPositions) {
+	var newPositionCallback = function(newPositions, route) {
+
+		// Ignore old route data
+		if (route !== routes.getActive()) return;
+
 		view.hideLoadingDialog();
 		view.eraseStops();
-
 		var activeStops = [];
 		_.each(newPositions, function(pos) {
 
@@ -25,7 +28,6 @@ define(function (require) {
 	// Change the route being shown on the map
 	var activeRouteCallback = function(newRoute) {
 		if (timer) {
-			console.log("go away timer");
 			window.clearInterval(timer);
 		}
 

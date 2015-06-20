@@ -59,7 +59,7 @@ define(function (require) {
 			$.ajax({
 				url: 'http://realtime-transrt.rhcloud.com/route/' + route_id,
 				success: function(data) {
-					newPositionCallback(data)
+					newPositionCallback(data, route_id);
 				}
     		});
 		}

@@ -77,6 +77,6 @@ define(function (require) {
 	// Update bus positions every 10s
 	var updatePositions = function(newRoute) {
 		console.log(newRoute);
-		routes.getRealTimeData(newroute, newPositionCallback);
+		routes.getRealTimeData(newRoute, newPositionCallback);
 	}
 });

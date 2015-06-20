@@ -5,16 +5,23 @@ html, body, #map-canvas {
 }
 
 #map-canvas {
-    width:79%; 
+    width:100%; 
+    height:100%;
     float:left
 }
 
 #content-window {
-	height: 100%;
-	padding: 10px;
-	text-align: center;
-    width:19%; 
-    float:left
+	z-index: 100; 
+    position: absolute;
+    background-color: #fff; 
+    padding: 5px;
+    text-align: center;
+    right: 0;
+}
+
+#container { 
+    width: 100%; 
+    height: 100%;
 }
 
 #button-div {
@@ -60,6 +67,7 @@ html, body, #map-canvas {
     text-align: center;
     color: white;
     visibility: hidden;
+    z-index: 200;
 }
 
 #dialog-box2 {

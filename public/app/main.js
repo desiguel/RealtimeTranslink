@@ -12,6 +12,7 @@ define(function (require) {
 
 		view.hideLoadingDialog();
 		view.eraseStops();
+		
 		var activeStops = [];
 		_.each(newPositions, function(pos) {
 
@@ -78,7 +79,6 @@ define(function (require) {
 
 	// Update bus positions every 10s
 	var updatePositions = function(newRoute) {
-		console.log(newRoute);
 		routes.getRealTimeData(newRoute, newPositionCallback);
 	}
 });

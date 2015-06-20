@@ -1,5 +1,4 @@
 define(function (require) {
-
 	var map = null;
 	var activeLayer = null;
 	var currentStops = [];

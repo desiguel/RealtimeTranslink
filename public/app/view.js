@@ -1,9 +1,35 @@
+/*
+view.js - View of MVC pattern, manages all DOM manipulation and UI/UX.
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Julian Fell
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 define(function (require) {
 	var map = null;
 	var activeLayer = null;
 	var currentStops = [];
 
-	// Get templates with require.js
+	// Get templates with require.js (Bit hacky but does the job)
 	var tmplCurrentRoutes = _.template(require("./res/current-routes"));
 	var tmplAllRoutes = _.template(require("./res/all-routes"));
 
@@ -61,6 +87,7 @@ define(function (require) {
 			$("#dialog-box-table tr").each(function() {
 				$(this).click(function( event ) {
 					addRouteCallback($(event.target).parent().find(">:first-child").html());
+					hideAddRouteDialog();
 				});
 			});
 		},

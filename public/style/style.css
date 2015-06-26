@@ -46,14 +46,14 @@ html, body, #map-canvas {
 }
 
 .escape-button {
-	color: black;
-	border-radius: 0;
-	border-color: #ccc;
+    height: 30px;
+    width: 30px;
+    border: none;
+    
+    background-color: 0;
 	position: fixed;
 	margin-left: 150px;
-	border-bottom-style: none;
-	border-bottom-width: 0px;
-	border-collapse: collapse;
+    background: url("../app/res/escape_btn.png");
 }
 
 #dialog-box {

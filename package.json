@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "description": "A package using versioning best-practices",
+  "description": "Brisbane real time bus locations",
   "author": "Julian Fell <julesfell@gmail.com>",
   "dependencies": {
     "async": "1.2.1",

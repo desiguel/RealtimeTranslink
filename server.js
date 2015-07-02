@@ -53,40 +53,40 @@ var requestSettings = {
  */
 var RealtimeBusApp = function() {
 
-    //  Scope.
-    var self = this;
+	//  Scope.
+	var self = this;
 
-    /*  ================================================================  */
-    /*  Helper functions.                                                 */
-    /*  ================================================================  */
+	/*  ================================================================  */
+	/*  Helper functions.                                                 */
+	/*  ================================================================  */
 
-    /**
-     *  Set up server IP address and port # using env variables/defaults.
-     */
-    self.setupVariables = function() {
-        //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+	/**
+	 *  Set up server IP address and port # using env variables/defaults.
+	 */
+	self.setupVariables = function() {
+		//  Set the environment variables we need.
+		self.ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+		self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
-        if (typeof self.ipaddress === "undefined") {
-            //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-            //  allows us to run/test the app locally.
-            console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-            self.ipaddress = "127.0.0.1";
-        };
-    };
+		if (typeof self.ipaddress === "undefined") {
+			//  Log errors on OpenShift but continue w/ 127.0.0.1 - this
+			//  allows us to run/test the app locally.
+			console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
+			self.ipaddress = "127.0.0.1";
+		};
+	};
 
-    /*  ================================================================  */
-    /*  App server functions.                 							  */
-    /*  ================================================================  */
+	/*  ================================================================  */
+	/*  App server functions.                 							  */
+	/*  ================================================================  */
 
-    /**
-     *  Serve the GTFS-realtime trip updates for all busses on the 
-     *  requested route. 
-     *
-     *  (This is quite ugly and probably not the best way to do this, should 
-     *	rewrite/refactor at some point)
-     */
+	/**
+	 *  Serve the GTFS-realtime trip updates for all busses on the 
+	 *  requested route. 
+	 *
+	 *  (This is quite ugly and probably not the best way to do this, should 
+	 *	rewrite/refactor at some point)
+	 */
 	function serveRoute(req, res) {
 
 		var requestedRoute = req.params.name;
@@ -111,21 +111,21 @@ var RealtimeBusApp = function() {
 								}
 							}
 						});
-				  	}
+					}
 
-				  	// Pass the trip updates to callback for serving to client
-				  	callback(null, trips);
+					// Pass the trip updates to callback for serving to client
+					callback(null, trips);
 				});
 			},
 			function(trips) {
 				res.send(trips);
 			}
-	    ]);
+		]);
 	}
 
 	/**
-     *  Serve the location of the requested stop.
-     */
+	 *  Serve the location of the requested stop.
+	 */
 	function serveStop(req, res) {
 		res.send(stops().filter(function(feature) {
 			if (feature.properties.hasOwnProperty("description")) {
@@ -137,15 +137,15 @@ var RealtimeBusApp = function() {
 		}));
 	}
 
-    /**
-     *  Initialize the server (express) and create the routes and register
-     *  the handlers.
-     */
-    self.initialize = function() {
-    	self.setupVariables();
-    	self.app = express();
+	/**
+	 *  Initialize the server (express) and create the routes and register
+	 *  the handlers.
+	 */
+	self.initialize = function() {
+		self.setupVariables();
+		self.app = express();
 
-    	// APIs for realtime info
+		// APIs for realtime info
 		self.app.get('/route/:name', serveRoute);
 		self.app.get('/stop/:name', serveStop);
 
@@ -154,19 +154,19 @@ var RealtimeBusApp = function() {
 			res.sendFile(path.join(__dirname, '/public', 'index.html'));
 		});
 		self.app.use(express.static(path.join(__dirname, 'public')));
-    };
+	};
 
 
-    /**
-     *  Start the server (starts up the sample application).
-     */
-    self.start = function() {
-        //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
-            console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now() ), self.ipaddress, self.port);
-        });
-    };
+	/**
+	 *  Start the server (starts up the sample application).
+	 */
+	self.start = function() {
+		//  Start the app on the specific interface (and port).
+		self.app.listen(self.port, self.ipaddress, function() {
+			console.log('%s: Node server started on %s:%d ...',
+						Date(Date.now() ), self.ipaddress, self.port);
+		});
+	};
 
 };   
 

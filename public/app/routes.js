@@ -1,7 +1,7 @@
 /*
 routes.js - Model of MVC pattern, keeps track of user selected routes,
-            has a list of ALL the possible routes and queries the REST
-            API on the server for realtime data.
+			has a list of ALL the possible routes and queries the REST
+			API on the server for realtime data.
 
 The MIT License (MIT)
 
@@ -47,8 +47,8 @@ define(function (require) {
 				url: 'http://realtime-transrt.rhcloud.com/stop/' + stop_id,
 				success: function(data) {
 					stopCallback(data[0]);
-      			}
-    		});
+				}
+			});
 		},
 
 		add: function(route) {
@@ -89,7 +89,7 @@ define(function (require) {
 				success: function(data) {
 					newPositionCallback(data, route_id);
 				}
-    		});
+			});
 		}
-    };
+	};
 });
